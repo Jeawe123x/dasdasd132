@@ -1,0 +1,111 @@
+    <REJESTRY_SPRZEDAZY_VAT>
+        <WERSJA>2.00</WERSJA>
+        <BAZA_ZRD_ID>SP2</BAZA_ZRD_ID>
+        <BAZA_DOC_ID>BR</BAZA_DOC_ID>
+
+{foreach from=$faktury item=faktura}
+	{assign "clientid" $faktura.customer.id}
+        <REJESTR_SPRZEDAZY_VAT>
+            <ID_ZRODLA><![CDATA[FV-LMS-{$faktura.id}]]></ID_ZRODLA>
+            <MODUL>Handel</MODUL>
+            <TYP>Faktura sprzedaży</TYP>
+            <REJESTR><![CDATA[SPRZEDAŻ]]></REJESTR>
+            <DATA_WYSTAWIENIA><![CDATA[{$faktura.cdate|date_format:"%Y-%m-%d"}]]></DATA_WYSTAWIENIA>
+            <DATA_SPRZEDAZY><![CDATA[{$faktura.sdate|date_format:"%Y-%m-%d"}]]></DATA_SPRZEDAZY>
+            <TERMIN><![CDATA[{($faktura.cdate+($faktura.paytime*86400))|date_format:"%Y-%m-%d"}]]></TERMIN>
+            <NUMER><![CDATA[FV/{$faktura.sdate|date_format:"%Y/%m"}/{$faktura.number}]]></NUMER>
+            <KOREKTA>Nie</KOREKTA>
+            <KOREKTA_NUMER><![CDATA[]]></KOREKTA_NUMER>
+            <METODA_KASOWA>Nie</METODA_KASOWA>
+            <FISKALNA>Nie</FISKALNA>
+            <DETALICZNA>Nie</DETALICZNA>
+            <WEWNETRZNA>Nie</WEWNETRZNA>
+            <EKSPORT>nie</EKSPORT>
+            <FINALNY>Tak</FINALNY>
+            <PODATNIK_CZYNNY>Nie</PODATNIK_CZYNNY>
+            <IDENTYFIKATOR_KSIEGOWY><![CDATA[FV/{$faktura.sdate|date_format:"%Y/%m"}/{$faktura.number}]]></IDENTYFIKATOR_KSIEGOWY>
+            <TYP_PODMIOTU><![CDATA[kontrahent]]></TYP_PODMIOTU>
+            <PODMIOT><![CDATA[{$clientid}]]></PODMIOT>
+            <PODMIOT_ID><![CDATA[]]></PODMIOT_ID>
+            <NAZWA1><![CDATA[{$faktura.customer.customername}]]></NAZWA1>
+            <NAZWA2><![CDATA[]]></NAZWA2>
+            <NAZWA3><![CDATA[]]></NAZWA3>
+            <NIP_KRAJ><![CDATA[{if $faktura.ten}PL{/if}]]></NIP_KRAJ>
+            <NIP><![CDATA[{$faktura.ten}]]></NIP>
+            <KRAJ><![CDATA[Polska]]></KRAJ>
+            <WOJEWODZTWO><![CDATA[]]></WOJEWODZTWO>
+            <POWIAT><![CDATA[]]></POWIAT>
+            <GMINA><![CDATA[]]></GMINA>
+            <ULICA><![CDATA[{$faktura.address}]]></ULICA>
+            <NR_DOMU><![CDATA[]]></NR_DOMU>
+            <NR_LOKALU><![CDATA[]]></NR_LOKALU>
+            <MIASTO><![CDATA[{$faktura.city}]]></MIASTO>
+            <KOD_POCZTOWY><![CDATA[{$faktura.zip}]]></KOD_POCZTOWY>
+            <POCZTA><![CDATA[]]></POCZTA>
+            <DODATKOWE><![CDATA[]]></DODATKOWE>
+            <TYP_PLATNIKA><![CDATA[kontrahent]]></TYP_PLATNIKA>
+            <PLATNIK><![CDATA[{$clientid}]]></PLATNIK>
+            <PLATNIK_ID><![CDATA[]]></PLATNIK_ID>
+            <PESEL><![CDATA[{$faktura.ssn}]]></PESEL>
+            <ROLNIK>Nie</ROLNIK>
+            <OPIS><![CDATA[]]></OPIS>
+            <WALUTA><![CDATA[]]></WALUTA>
+            <FORMA_PLATNOSCI><![CDATA[przelew]]></FORMA_PLATNOSCI>
+            <FORMA_PLATNOSCI_ID><![CDATA[]]></FORMA_PLATNOSCI_ID>
+            <DEKLARACJA_VAT7><![CDATA[{$faktura.sdate|date_format:"%Y-%m"}]]></DEKLARACJA_VAT7>
+            <DEKLARACJA_VATUE><![CDATA[Nie]]></DEKLARACJA_VATUE>
+            <KURS_WALUTY><![CDATA[KURS]]></KURS_WALUTY>
+            <NOTOWANIE_WALUTY_ILE>1</NOTOWANIE_WALUTY_ILE>
+            <NOTOWANIE_WALUTY_ZA_ILE>1</NOTOWANIE_WALUTY_ZA_ILE>
+            <DATA_KURSU><![CDATA[{$faktura.sdate|date_format:"%Y-%m-%d"}]]></DATA_KURSU>
+            <KURS_DO_KSIEGOWANIA>Nie</KURS_DO_KSIEGOWANIA>
+            <KURS_WALUTY_2><![CDATA[KURS]]></KURS_WALUTY_2>
+            <NOTOWANIE_WALUTY_ILE_2>1</NOTOWANIE_WALUTY_ILE_2>
+            <NOTOWANIE_WALUTY_ZA_ILE_2>1</NOTOWANIE_WALUTY_ZA_ILE_2>
+            <DATA_KURSU_2><![CDATA[{$faktura.sdate|date_format:"%Y-%m-%d"}]]></DATA_KURSU_2>
+            <PLATNOSC_VAT_W_PLN>Nie</PLATNOSC_VAT_W_PLN>
+            <AKCYZA_NA_WEGIEL>0</AKCYZA_NA_WEGIEL>
+            <POZYCJE>
+	    {foreach from=$faktura.content item=pozycja}
+		{assign var=element value=" "|explode:$pozycja.description}
+                <POZYCJA>
+		    <KATEGORIA_POS>{if $element[0]|strpos:'7'===0}{$element[0]}{/if}</KATEGORIA_POS>
+		    <KATEGORIA_ID_POS></KATEGORIA_ID_POS>
+                    <STAWKA_VAT>{$pozycja.taxvalue|string_format:"%d"}</STAWKA_VAT>
+                    <STATUS_VAT>opodatkowana</STATUS_VAT>
+                    <NETTO>{$pozycja.value_netto}</NETTO>
+                    <VAT>{($pozycja.value_brutto - $pozycja.value_netto)|number_format:2:".":""}</VAT>
+                    <NETTO_SYS>{$pozycja.value_netto}</NETTO_SYS>
+                    <VAT_SYS>{($pozycja.value_brutto - $pozycja.value_netto)|number_format:2:".":""}</VAT_SYS>
+                    <NETTO_SYS2>{$pozycja.value_netto}</NETTO_SYS2>
+                    <VAT_SYS2>{($pozycja.value_brutto - $pozycja.value_netto)|number_format:2:".":""}</VAT_SYS2>
+                    <RODZAJ_SPRZEDAZY>usługa</RODZAJ_SPRZEDAZY>
+                    <UWZ_W_PROPORCJI><![CDATA[Tak]]></UWZ_W_PROPORCJI>
+                </POZYCJA>
+	    {/foreach}
+            </POZYCJE>
+            <PLATNOSCI>
+                <PLATNOSC>
+                    <ID_ZRODLA_PLAT></ID_ZRODLA_PLAT>
+                    <TERMIN_PLAT><![CDATA[{($faktura.cdate+($faktura.paytime*86400))|date_format:"%Y-%m-%d"}]]></TERMIN_PLAT>
+                    <FORMA_PLATNOSCI_PLAT><![CDATA[przelew]]></FORMA_PLATNOSCI_PLAT>
+                    <FORMA_PLATNOSCI_ID_PLAT></FORMA_PLATNOSCI_ID_PLAT>
+                    <KWOTA_PLAT>{$faktura.brutto|number_format:2:".":""}</KWOTA_PLAT>
+                    <WALUTA_PLAT><![CDATA[]]></WALUTA_PLAT>
+                    <KURS_WALUTY_PLAT><![CDATA[KURS]]></KURS_WALUTY_PLAT>
+                    <NOTOWANIE_WALUTY_ILE_PLAT>1</NOTOWANIE_WALUTY_ILE_PLAT>
+                    <NOTOWANIE_WALUTY_ZA_ILE_PLAT>1</NOTOWANIE_WALUTY_ZA_ILE_PLAT>
+                    <KWOTA_PLN_PLAT>{$faktura.brutto|number_format:2:".":""}</KWOTA_PLN_PLAT>
+                    <KIERUNEK>przychód</KIERUNEK>
+                    <PODLEGA_ROZLICZENIU>tak</PODLEGA_ROZLICZENIU>
+                    <KONTO><![CDATA[]]></KONTO>
+                    <NIE_NALICZAJ_ODSETEK>Nie</NIE_NALICZAJ_ODSETEK>
+                    <DATA_KURSU_PLAT><![CDATA[{$faktura.sdate|date_format:"%Y-%m-%d"}]]></DATA_KURSU_PLAT>
+                    <WALUTA_DOK><![CDATA[]]></WALUTA_DOK>
+                </PLATNOSC>
+            </PLATNOSCI>
+
+            <ATRYBUTY />
+        </REJESTR_SPRZEDAZY_VAT>
+{/foreach}
+    </REJESTRY_SPRZEDAZY_VAT>

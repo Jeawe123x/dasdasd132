@@ -1,0 +1,105 @@
+
+<KONTRAHENCI>
+    <WERSJA>2.00</WERSJA>
+    <BAZA_ZRD_ID>SP2</BAZA_ZRD_ID>
+    <BAZA_DOC_ID>BR</BAZA_DOC_ID>
+{foreach from=$faktury item=faktura}
+    {if $faktura.customer.extid }
+	{assign "clientid" $faktura.customer.extid}
+     {else }
+	{assign "clientid" $faktura.customer.id}
+    {/if}
+    <KONTRAHENT>
+        <ID_ZRODLA><![CDATA[LMS-{$faktura.customer.id}]]></ID_ZRODLA>
+        <AKRONIM><![CDATA[{$clientid}]]></AKRONIM>
+        <ZEZWOLENIE><![CDATA[]]></ZEZWOLENIE>
+        <OPIS><![CDATA[]]></OPIS>
+        <CHRONIONY>Nie</CHRONIONY>
+        <RODZAJ>odbiorca </RODZAJ>
+        <EKSPORT>krajowy</EKSPORT>
+        <FINALNY>Tak</FINALNY>
+        <PLATNIK_VAT>Nie</PLATNIK_VAT>
+        <MEDIALNY>Nie</MEDIALNY>
+        <POWIAZANY_UOV>Nie</POWIAZANY_UOV>
+        <NIEAKTYWNY>Nie</NIEAKTYWNY>
+        <ROLNIK>Nie</ROLNIK>
+        <NIE_NALICZAJ_ODSETEK>Nie</NIE_NALICZAJ_ODSETEK>
+        <METODA_KASOWA>Nie</METODA_KASOWA>
+        <METODA_KASOWA_SPR>Nie</METODA_KASOWA_SPR>
+        <KONTOODB><![CDATA[]]></KONTOODB>
+        <KONTODOST><![CDATA[]]></KONTODOST>
+        <FORMA_PLATNOSCI><![CDATA[przelew]]></FORMA_PLATNOSCI>
+        <FORMA_PLATNOSCI_ID></FORMA_PLATNOSCI_ID>
+        <MAX_ZWLOKA>0</MAX_ZWLOKA>
+        <CENY>domyślna</CENY>
+        <JEST_LIMIT_KREDYTU>Nie</JEST_LIMIT_KREDYTU>
+        <LIMIT_KREDYTU>0</LIMIT_KREDYTU>
+        <NIE_PODLEGA_ROZLICZENIU>Nie</NIE_PODLEGA_ROZLICZENIU>
+        <KOMORNIK>Nie</KOMORNIK>
+        <UPUST>0</UPUST>
+        <INFORMACJE>Nie</INFORMACJE>
+        <INDYWIDUALNY_TERMIN>Nie</INDYWIDUALNY_TERMIN>
+        <TERMIN>0</TERMIN>
+        <KAUCJE_PLATNOSCI>Nie</KAUCJE_PLATNOSCI>
+        <KAUCJE_TERMIN>0</KAUCJE_TERMIN>
+        <KOD_TRANSAKCJI><![CDATA[]]></KOD_TRANSAKCJI>
+        <BLOKADA_DOKUMENTOW>Nie</BLOKADA_DOKUMENTOW>
+        <LIMIT_PRZETERMINOWANY>Nie</LIMIT_PRZETERMINOWANY>
+        <LIMIT_PRZETERMINOWANY_WARTOSC>0</LIMIT_PRZETERMINOWANY_WARTOSC>
+        <KRAJ_ISO><![CDATA[PL]]></KRAJ_ISO>
+        <OPIEKUN />
+        <ADRESY>
+            <ADRES>
+                <STATUS>aktualny</STATUS>
+                <EAN><![CDATA[]]></EAN>
+                <GLN><![CDATA[]]></GLN>
+                <NAZWA1><![CDATA[{$faktura.customer.lastname} {$faktura.customer.name}]]></NAZWA1>
+                <NAZWA2><![CDATA[]]></NAZWA2>
+                <NAZWA3><![CDATA[]]></NAZWA3>
+                <KRAJ><![CDATA[Polska]]></KRAJ>
+                <WOJEWODZTWO><![CDATA[]]></WOJEWODZTWO>
+                <POWIAT><![CDATA[]]></POWIAT>
+                <GMINA><![CDATA[]]></GMINA>
+                <ULICA><![CDATA[{$faktura.customer.street}]]></ULICA>
+                <NR_DOMU><![CDATA[{$faktura.customer.building}]]></NR_DOMU>
+                <NR_LOKALU><![CDATA[{$faktura.customer.apartment}]]></NR_LOKALU>
+                <MIASTO><![CDATA[{$faktura.customer.city}]]></MIASTO>
+                <KOD_POCZTOWY><![CDATA[{$faktura.customer.zip}]]></KOD_POCZTOWY>
+                <POCZTA><![CDATA[]]></POCZTA>
+                <DODATKOWE><![CDATA[]]></DODATKOWE>
+                <NIP_KRAJ><![CDATA[]]></NIP_KRAJ>
+                <NIP><![CDATA[{$faktura.customer.ten}]]></NIP>
+                <REGON><![CDATA[]]></REGON>
+                <PESEL><![CDATA[{$faktura.customer.ssn}]]></PESEL>
+                <TELEFON1><![CDATA[]]></TELEFON1>
+                <TELEFON2><![CDATA[]]></TELEFON2>
+                <FAX><![CDATA[]]></FAX>
+                <URL><![CDATA[]]></URL>
+                <EMAIL><![CDATA[]]></EMAIL>
+            </ADRES>
+        </ADRESY>
+        <GRUPY>
+            <GRUPA>
+                <NAZWA><![CDATA[]]></NAZWA>
+            </GRUPA>
+        </GRUPY>
+        <PRZEDSTAWICIELE />
+        <ODBIORCY />
+        <ATRYBUTY />
+        <KNT_RACHUNKI>
+	    {assign var=lpkonta value=1}
+            <KNT_RACHUNEK>
+                <SCHEM_FORMA_PLATNOSCI><![CDATA[przelew]]></SCHEM_FORMA_PLATNOSCI>
+                <SCHEM_FORMA_PLATNOSCI_ID></SCHEM_FORMA_PLATNOSCI_ID>
+                <SCHEM_BANK_NR><![CDATA[10500099]]></SCHEM_BANK_NR>
+                <SCHEM_BANK_ID></SCHEM_BANK_ID>
+                <OPIS_RACHUNKU><![CDATA[Numer konta bankowego z systemu LMS]]></OPIS_RACHUNKU>
+                <DOMYSLNY>Tak</DOMYSLNY>
+                <LP>{$lpkonta++}</LP>
+                <RACHUNEK_IBAN>Tak</RACHUNEK_IBAN>
+                <RACHUNEK_NUMER><![CDATA[PL{$faktura.customer.bankaccount}]]></RACHUNEK_NUMER>
+            </KNT_RACHUNEK>
+        </KNT_RACHUNKI>
+    </KONTRAHENT>
+{/foreach}
+</KONTRAHENCI>

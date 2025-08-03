@@ -1,0 +1,74 @@
+<TABLE cellpadding="3" WIDTH="100%">
+	<TR class="light">
+		<TD width="1%" class="fleftu">
+			<IMG src="img/docum.gif" alt="">
+		</TD>
+		<TD width="1%" class="fbt" NOWRAP>
+			<B>{trans("Additional information:")}</B>
+		</TD>
+		<TD width="98%" class="frightu" NOWRAP>
+			<TEXTAREA COLS="50" ROWS="5" name="document[notes]" {tip text="Enter additional information (optional)"}>{$document.notes}</TEXTAREA>
+		</TD>
+	</TR>
+	<TR class="light">
+		<TD width="1%" class="fleftu">
+			<IMG src="img/docum.gif" alt="">
+		</TD>
+		<TD width="1%" class="fbt" NOWRAP>
+			<B>{trans("Kwota aktywacji:")}</B>
+		</TD>
+		<TD width="98%" class="frightu" NOWRAP>
+			<INPUT TYPE=TEXT name="document[aktywacja]" {tip text="Enter additional information (optional)"}>{$document.aktywacja}</INPUT>
+		</TD>
+	</TR>
+	<TR class="light">
+		<TD width="1%" class="fleftu">
+			<IMG src="img/docum.gif" alt="">
+		</TD>
+		<TD width="1%" class="fbt" NOWRAP>
+			<B>{trans("Kwota ulgi:")}</B>
+		</TD>
+		<TD width="98%" class="frightu" NOWRAP>
+			<INPUT TYPE=TEXT name="document[ulga]" {tip text="Enter additional information (optional)"}>{$document.ulga}</INPUT>
+		</TD>
+	</TR>
+</TABLE>
+
+
+<TABLE cellpadding="3" WIDTH="100%">
+	<TR class="dark"><TD colspan=9 class="fbt"><b>Zobowiązania</b></TD></TR>
+	    {cycle name=assign values="light,lucid" print=false}
+	    {foreach from=$assignments item=a}
+	    <TR>
+		<TD><input type="checkbox" name="document[assselected][]" value="{$a.id}"></TD>
+		<TD OnClick="return self.location.href='?m=customerassignmentedit&amp;id={$a.id}'">
+		    {if $a.tariffid}
+			<A href="?m=tariffinfo&amp;id={$a.tariffid}"><span class="bold">{$a.name}</span></A><b>{if $a.attribute} - {$a.attribute}{/if}</b>
+		    {else}
+			{$a.name}
+		    {/if}
+		    {if $a.nodes}({foreach from=$a.nodes item=item key=key}{$item.name}{if $key+1<sizeof($a.nodes)}, {/if}{/foreach}){/if}
+		</TD>
+		<TD class="text-right nobr" OnClick="return self.location.href='?m=customerassignmentedit&amp;id={$a.id}'">
+		    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{$a.value|money_format}{/if}
+		</TD>
+		<TD class="text-right nobr" OnClick="return self.location.href='?m=customerassignmentedit&amp;id={$a.id}'">
+		    {if ConfigHelper::checkConfig('privileges.superuser') || !ConfigHelper::checkConfig('privileges.hide_finances')}{if $a.pdiscount != 0}{$a.pdiscount}%{else}{if $a.vdiscount != 0}{$a.vdiscount|money_format}{else}-{/if}{/if}{/if}
+		</TD>
+		<TD class="nobr" OnClick="return self.location.href='?m=customerassignmentedit&amp;id={$a.id}'">{$a.payday}</TD>
+		<TD class="text-right nobr" OnClick="return self.location.href='?m=customerassignmentedit&amp;id={$a.id}'">
+		    {if $a.downceil}{$a.downceil} kbit/s{else}-{/if}
+		</TD>
+		<TD class="text-right nobr" OnClick="return self.location.href='?m=customerassignmentedit&amp;id={$a.id}'">
+		    {if $a.upceil}{$a.upceil} kbit/s{else}-{/if}
+		</TD>
+		<TD class="text-right nobr">
+		    <img src="img/options.gif" alt="" {tip a=$a.id dynpopup='?m=customerassignmentinfo&amp;id=$a'}>
+		</TD>
+		<TD class="nobr" OnClick="return self.location.href='?m=customerassignmentedit&amp;id={$a.id}'">
+		    {if $a.datefrom}{trans("from")} {$a.datefrom|date_format:"%Y/%m/%d"}{/if}
+		    {if $a.dateto}{trans("to")} {$a.dateto|date_format:"%Y/%m/%d"}{/if}
+		</TD>
+	    </TR>
+	    {/foreach}
+</TABLE>

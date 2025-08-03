@@ -1,0 +1,41 @@
+{include file="header.html"}
+
+<h1>Export do Optimy</h1>
+<form name="optimaexport" method="post" action="?m=optima-export-download">
+<input type="submit" class="hiddenbtn">
+<table width="100%" cellpadding="0" cellspacing="0" class="">
+<tr class="light">
+    <td class="fall" width="100%" style="padding:2px;font-weight:bold;" align="center">
+	Wybierz firme: 
+                                                        <SELECT size="1" name="division" {tip text="Select division"}>
+                                                            <OPTION value="0">- {trans("all")} -</OPTION>
+                                                            {foreach from=$divisions item=item}
+                                                            <OPTION value="{$item.id}">{$item.shortname}</OPTION>
+                                                            {/foreach}
+                                                        </SELECT>
+    </td>
+</tr>
+<tr class="light">
+    <td class="fall" width="100%" style="padding:2px;font-weight:bold;" align="center">
+	Wybierz miesiac: {html_select_date start_year='2015' display_days=false}<br />
+<!--	{html_checkboxes name='exportlist' options=$opts
+		selected=$opts_selected  separator='<br />'} !-->
+    </td>
+</tr>
+<tr class="dark">
+    <td class="fbottomu" colspan="2" width="100%" align="center" nowrap>
+        <a href="javascript: document.optimaexport.submit();">{trans("Submit")} <img src="img/save.gif" alt=""></a>
+    </td>
+</tr>
+</table>
+<script type="text/javascript">
+<!--
+    keyPressF2 = function() {
+	document.optimaexport.submit();
+    }
+//-->
+</script>
+
+</form>
+
+{include file="footer.html"}

@@ -1,0 +1,26 @@
+<TABLE cellpadding="3" WIDTH="100%">
+    {for $foo=0 to 3}
+	<TR class="light">
+		<TD width="1%" class="fleftu">
+			<IMG src="img/docum.gif" alt="">
+		</TD>
+		<TD width="1%" class="fbt" NOWRAP>
+			<B>{trans("Nazwa urządzenia:")}<input type="text" name="document[urz][{$foo}][nazwa]"></B>
+		</TD>
+		<TD width="98%" class="frightu" NOWRAP>
+			<B>{trans("Numer seryjny:")}<input type="text" name="document[urz][{$foo}][sn]"></B>
+		</TD>
+	</TR>
+    {/for}
+	<TR class="light">
+		<TD width="1%" class="fleftu">
+			<IMG src="img/docum.gif" alt="">
+		</TD>
+		<TD width="1%" class="fbt" NOWRAP>
+		</TD>
+		<TD width="98%" class="frightu" NOWRAP>
+			<B>{trans("Wartosc:")}<input type="text" name="document[urzwartosc]"></B>
+		</TD>
+	</TR>
+
+</TABLE>

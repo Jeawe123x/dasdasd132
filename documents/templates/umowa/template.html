@@ -1,0 +1,111 @@
+<html>
+<head>
+<STYLE type="text/css">
+<!--
+BODY		{ font-size: 10pt; font-family: Tahoma, Verdana, Arial, Helvetica; }
+H1		{ font-size: 13pt; text-align: center; }
+H2		{ font-size: 11pt; text-align: center; }
+TD		{ font-size: 10pt; font-family: Tahoma, Verdana, Arial, Helvetica; }
+TABLE		{ border-collapse: collapse; width: 100%; }
+P		{ font-size: 11pt; font-family: Tahoma, Verdana, Arial, Helvetica; text-align: justify; }
+//-->
+</STYLE>
+<meta http-equiv="Content-Type" content="text/html; charset={$LANGDEFS.$_language.charset}">
+</head>
+<body>
+<h1>Numer umowy {$document.nr}</h1>
+<h2>UMOWA O ŚWIADCZENIE USŁUG TELEKOMUNIKACYJNYCH</h2>
+<p>Zawarta w dniu {$smarty.now|date_format:"%Y-%m-%d"} w Sosnowcu pomiędzy<br />
+SOFT PRO 2 Sp. z o.o. z siedzibą w Sosnowcu, przy ul. Lenartowicza 108, NIP 644-347-47-28, REGON 241806185,
+reprezentowaną przez: {$layout.logname} zwaną dalej <b><u>Usługodawcą</u></b>;<br />
+a <b><u>Usługobiorcą</u></b> legitymującym się następującymi danymi:</p>
+
+<TABLE cellpadding="3" cellspacing="0" BORDER="1">
+    <TR>
+	<TD>Nazwa/Nazwisko, imię:</TD>
+	<TD>{$customerinfo.customername}</TD>
+    </TR>
+    <TR>
+	<TD VALIGN="TOP">Adres:</TD> 
+	<TD>{$customerinfo.address}<br>{$customerinfo.zip} {$customerinfo.city}</TD>
+    </TR>
+    <TR>
+	<TD>PESEL:</TD>
+	<TD>{$customerinfo.ssn}</TD>
+    </TR>
+    <TR>
+	<TD>NIP:</TD>
+	<TD>{$customerinfo.ten}</TD>
+    </TR>
+    <TR>
+	<TD>Indywidualny numer rachunku bankowego:</TD>
+	<TD>
+		    {format_bankaccount($customerinfo.bankaccount)}
+	</TD>
+    </TR>
+</TABLE>
+
+<H2>I - POSTANOWIENIA OGÓLNE</H2>
+<ol>
+<li> Umowa terminowa obowiązuje od {$document.fromdate|date_format:"%Y-%m-%d"} do {$document.todate|date_format:"%Y-%m-%d"}. </li>
+<li> Usługobiorca zobowiązany jest do uiszczenia promocyjnej opłaty instalacyjnej i opłaty aktywacyjnej w wysokości {$document.aktywacja} PLN brutto. </li>
+<li> Wysokość przydzielonej ulgi wynikłej z regulaminu promocji/cennika w dniu zawarcia umowy {$document.ulga} PLN brutto. </li>
+<li> Usługobiorca wyraża zgodę na otrzymywanie faktur drogą elektroniczną. </li>
+<li> Usługobiorca wyraża zgodę na przetwarzanie przez Usługodawcę swoich danych osobowych dla celów marketingowych: tak / nie </li>
+<li> Usługobiorca wyraża zgodę na otrzymywanie informacji handlowej od Usługodawcy: tak / nie </li>
+</ol>
+
+<H2>II - SPECYFIKACJA USŁUGI</H2>
+
+<TABLE cellpadding="3" cellspacing="0" border="1">
+    <TR>
+	<TD NOWRAP>{trans("Service:")}</TD>
+	<TD NOWRAP ALIGN="RIGHT">Przed rabatem:</TD>
+	<TD NOWRAP ALIGN="RIGHT">{trans("Value:")}</TD>
+	<TD NOWRAP>{trans("Payment:")}</TD>
+	<TD NOWRAP>{trans("Period:")}</TD>
+    </TR>
+    {$suma = 0}
+    {foreach from=$assignments item=a}
+    {if in_array($a.id, $document.assselected)}
+    <TR>
+	<TD NOWRAP>{$a.name}</TD>
+	<TD NOWRAP ALIGN="RIGHT">{$a.value|money_format}</TD>
+	<TD NOWRAP ALIGN="RIGHT">{$a.discounted_value|money_format}</TD>
+	<TD NOWRAP>{$a.period}</TD>
+	<TD>
+	od: {if $a.datefrom}{$a.datefrom|date_format:"%Y/%m/%d"}{else}-{/if}
+	do: {if $a.dateto}{$a.dateto|date_format:"%Y/%m/%d"}{else}-{/if}
+	</TD>
+    </TR>
+    {$suma = $suma + $a.discounted_value}
+    {/if}
+    {/foreach}
+</TABLE>
+Poziom opieki technicznej - standard
+<H2>III - IDENTYFIKATOR KLIENTA</H2>
+<p>W kontaktach z Biurem Obsługi Klienta Usługobiorca 
+	    zobowiązany jest do podawania Identyfikatora Użytkownika: {$customerinfo.id|string_format:"%04d"}
+	    oraz numeru PIN: {$customerinfo.pin}
+</p>
+
+{if $document.notes}
+<H2>IV - POSTANOWIENIA DODATKOWE</H2>
+<p>{$document.notes}</p>
+{/if}
+    
+<BR><BR>
+
+<TABLE WIDTH="100%">
+    <TR>
+	<TD WIDTH="50%" ALIGN="CENTER">.............................................</TD>
+	<TD WIDTH="50%" ALIGN="CENTER">.............................................</TD>
+    </TR>
+    <TR>
+	<TD ALIGN="CENTER">USŁUGOBIORCA</TD>
+	<TD ALIGN="CENTER">USŁUGODAWCA</TD>
+    </TR>
+</TABLE>
+</body>
+</html>
+
